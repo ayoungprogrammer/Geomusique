@@ -4,8 +4,7 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
+
 var http = require('http');
 var path = require('path');
 
@@ -26,16 +25,18 @@ app.use(express.methodOverride());
 //app.use(app.router);
 //
 
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 app.get('/',function(req,res,next){
 	console.log('User: '+req.session.username);
 	if(!req.session.username){
 		res.redirect('/login');
 		return;
 	}
+	console.log('next');
 	next();
 });
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {

@@ -1,5 +1,37 @@
- html, body, #map-canvas {
+ html, body {
+  position:fixed;
   height: 100%;
+  width: 100%;
   margin: 0px;
-  padding: 0px
+  padding: 0px;
+  top:0;
+}
+
+#map-canvas{
+  position:fixed;
+  top:10%;
+  height: 90%;
+}
+
+
+#rdio-bar{
+  position:fixed;
+  top:0;
+  width:100%;
+  height:10%;
+  background-color:#ff0000;
+  border-size:2px;
+  border-color:#0;
+  margin:0;
+  padding:0;
+  float: left;
+}
+
+#logo{
+    height: 100%;
+    position:relative;
+    margin:0;
+    top: 0;
+    color:#ffffff;
+    float: left;
 }
