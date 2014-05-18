@@ -32,21 +32,22 @@ app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get('/',function(req,res,next){
-	console.log('User: '+req.session.username);
-	if(!req.session.username){
-		res.redirect('/login');
-		return;
-	}
-	console.log('next');
-	next();
-});
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
  
+app.get('/check-auth',function(req,res){
+	if(req.session.username){
+		console.log("authed");
+		res.json("authed");
+	}else {
+		console.log("not authed");
+		res.json("not authed");
+	}
+});
+
 
 app.get('/login',function(req,res,next){
 	res.sendfile(path.join(__dirname,'public/login.html'));
@@ -56,7 +57,6 @@ app.get('/',function(req,res,next){
 	//res.sendfile('index.html');
 	res.sendfile(path.join(__dirname,'public/index.html'));
 });
-
 
 
 app.post('/login', api.login_user);
