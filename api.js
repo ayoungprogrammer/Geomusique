@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
+var userSchema = require('./model/user.js');
 
-var db = require('./mongod.js');
+var User = mongoose.model('User',userSchema.UserSchema);
 
-db.init('mongodb://root:password123@oceanic.mongohq.com:10054/app20135974',function(){});
+
+mongoose.connect('mongodb://geomusique:michael123@oceanic.mongohq.com:10019/app25342036');
 
 //Exports
 exports.save_song = function (req,res){
@@ -11,30 +13,42 @@ exports.save_song = function (req,res){
 	});
 };
 
-exports.login_user = function(accessToken, refreshToken, profile, done){
-	
-	console.log("LOGIN: "+profile);
-	
-	var found = -1;
-	for(var i=0;i<db.users.length;i++){
-		if(db.users[i].id == profile.id){
-			
-			found = i;
+exports.login_user = function(req,res){
+	var name = req.body.username;
+	console.log(name);
+	User.findOne({'username':name},function(err,person){
+		if(err){
+			console.log("Creating user");
+			var newUser = new User({username:name,saves:[]});
+			newUser.save(function(err,obj){
+				if(err)return console.error(err);
+				req.session.username = name;
+				res.send('sucess');
+				//res.redirect('/');
+			});
 		}
-	}
-	if(found>=0){
-		console.log("FOUND: "+profile.id);
-		done(null,db.users[found]);
-	}else {
-		var user= {};
-		user.id = profile.id;
-	    user.name  = profile.displayName;
-	    done(null,user);
-	}
+		else {
+			console.log("Found user");
+			req.session.username = name;
+			res.send('sucess');
+			//res.redirect('/');
+		}
+	});
+	
 	
 };
 
-exports.saveSong = function(songId){
-	req.username
+exports.saveSong = function(req,res){
 	
-}
+	
+};
+
+exports.getSongs = function (req,res){
+	console.log("getting songs");
+	User.findOne({'username':req.session.username},function(err,user){
+		if(err){
+			return console.error(err);
+		}
+		return res.json(user.saves);
+	});
+};

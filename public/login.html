@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link href="stylesheets/signin.css" rel="stylesheet">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+<title>Geomusique</title>
+<script>
+
+$(function(){
+  $("#myform").submit(function(e) {
+    e.preventDefault();
+    $.post('login',$("#myform").serialize(),function(data){
+      //alert(data);
+        window.location.href = '/';
+    });
+  });
+});
+</script>
+</head>
+<body>
+  <form id="myform" class="form-signin">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input class="form-control" type="text" size="20" placeholder="Username" name="username">
+    <input class="form-control" type="password" size="20" placeholder="password" name="password">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</body>
+</html>
