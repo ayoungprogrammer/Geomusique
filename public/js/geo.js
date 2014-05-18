@@ -21,6 +21,20 @@ $("#pause").click(function(e){
 });
 
 $(function(){
+	$.getJSON('auth-check',function(resp){
+		if(resp=="authed"){
+			$("#login").hide();
+		}else {
+			
+		}
+	});
+});
+
+$("#login").click(function(e){
+	window.location.href = '/login';
+});
+
+$(function(){
   $("#search").submit(function(e) {
     e.preventDefault();
     R.ready(function() {
@@ -48,11 +62,10 @@ $(function(){
             			  'location':{'latitude':coords.k,
             				  'longitude':coords.A},
             				  'song_name':currentSong.name,
-            				  'song_arist':currentSong.artist
+            				  'song_arist':currentSong.albumArtist
             				  };
-
+            	  makeMarker(obj);
             	  $.post('api/save-song',obj,function(data){
-            		  makeMarker(obj);
             		  console.log('saved');
             	  });              
             	}
