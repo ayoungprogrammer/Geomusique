@@ -83,7 +83,7 @@ $(function(){
             	  console.log(currentSong);
             	  songId = currentSong.songId;
 
-
+            	  $("#player-buttons").css("visibility","visible");
             	  R.player.play({source:searchResults[0].key});
             	  console.log(coords);
             	  var obj = {'song_id':currentSong.key,
