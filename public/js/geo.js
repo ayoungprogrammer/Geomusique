@@ -16,23 +16,51 @@ $(".player-element").click(function(e){
 	R.player.togglePause();
 });
 
-$("#pause").click(function(e){
-	R.player.togglePause();
-});
 
-$(function(){
-	$.getJSON('auth-check',function(resp){
-		if(resp=="authed"){
-			$("#login").hide();
-		}else {
-			
-		}
-	});
-});
 
-$("#login").click(function(e){
-	window.location.href = '/login';
-});
+function showAuthenticated() {
+    $('.authenticated-view').show();
+    $('.username').text(R.currentUser.get('firstName') + ' ' + R.currentUser.get('lastName'));
+  }
+
+  // ----------
+  function showUnauthenticated() {
+    $('.unauthenticated-view').show();
+  }
+
+  // ----------
+  function showError(message) {
+    $('#error-message').text(message);
+  }
+  R.ready(function() {
+  $('.sign-in').click(function() {
+    R.authenticate(function(nowAuthenticated) {
+      if (nowAuthenticated) {
+        $('.unauthenticated-view').hide();
+        var obj = {username:R.currentUser.get('key')};
+        $.post('login',obj,function(data){
+            window.location.href = '/';
+        });
+        showAuthenticated();
+      }
+    });
+  });
+  if (R.authenticated()) {
+	  $.getJSON('check-auth',function(resp){
+		  console.log("AUTHCHECK: "+resp);
+		 if(resp!="authed"){
+			 var obj = {username:R.currentUser.get('key')};
+			 $.post('login',obj,function(data){
+				 window.location.href = '/';
+		     });
+		 }
+	  });
+      showAuthenticated();
+    } else {
+      showUnauthenticated();
+    }
+  });
+  
 
 $(function(){
   $("#search").submit(function(e) {
@@ -62,7 +90,7 @@ $(function(){
             			  'location':{'latitude':coords.k,
             				  'longitude':coords.A},
             				  'song_name':currentSong.name,
-            				  'song_arist':currentSong.albumArtist
+            				  'song_artist':currentSong.albumArtist
             				  };
             	  makeMarker(obj);
             	  $.post('api/save-song',obj,function(data){
