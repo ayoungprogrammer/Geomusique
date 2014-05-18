@@ -5,6 +5,7 @@
   margin: 0px;
   padding: 0px;
   top:0;
+  font-family:Droid Sans;
 }
 
 #map-canvas{
@@ -93,4 +94,7 @@
   float:left;
   margin-left: 30px;
   margin-top:20px;
+}
+#play-tour{
+  margin:0 auto;
 }
