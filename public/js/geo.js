@@ -37,36 +37,25 @@ $(function(){
               if(searchResults.length==0){
             	  alert('no songs');
               }else {
-            	  currentSong = searchResults[0].songId;
-            	  songId = currentSong;
-            	  var songMarker = new google.maps.Marker({
-            	      position: coords,
-            	      map: map,
-            	      icon: musicIcon,
-            	      customInfo: songId,
-            	      optimized: false
-            	    });
-            	    songMarker.setMap(map); //add marker to map
-            	    //Add Function for marker
-            	    google.maps.event.addListener(songMarker, 'click', function() {
-            	        // alert(this.customInfo);
-            	        var songId = this.customInfo;
-            	        R.ready(function() {
-            	        	$("#player-buttons").css("visibility","visible");
-            	          R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
-            	          console.log(songId);
-            	        });
-            	    });
+            	  currentSong = searchResults[0];
+            	  console.log(currentSong);
+            	  songId = currentSong.songId;
+
 
             	  R.player.play({source:searchResults[0].key});
             	  console.log(coords);
             	  var obj = {'song_id':currentSong.key,
             			  'location':{'latitude':coords.k,
-            				  'longitude':coords.A}};
+            				  'longitude':coords.A},
+            				  'song_name':currentSong.name,
+            				  'song_arist':currentSong.artist
+            				  };
 
             	  $.post('api/save-song',obj,function(data){
+            		  makeMarker(obj);
             		  console.log('saved');
-            	  });              }
+            	  });              
+            	}
             },
             error: function(response) {
             	console.log(response.message);
@@ -77,48 +66,40 @@ $(function(){
   });
 });
 
-function readData(data){
-  var musicIcon = new google.maps.MarkerImage(
-    'img/musicmarker.png',
-    null,null,null,
-    new google.maps.Size(30, 40)
-  );
-
-
-  // console.log(data);
-  for(key in data){
-    var lat = data[key].location.latitude;
-    var long = data[key].location.longitude;
-
-    var songId = data[key].song_id;
-    var songName = data[key].song_name;
-    var songArtist = data[key].song_artist;
-
-    var contentString = '<div id="content">'+
-        '<h1 id="firstHeading" class="firstHeading">'+ songName +'</h1>'+
-        '<div id="bodyContent">'+
-        '<p>'+ songArtist +'</p>'+
-        '</div>';
+function makeMarker(obj){
+	
+	var lat = obj.location.latitude;
+    var long = obj.location.longitude;
+    var songId = obj.song_id;
+    var songName = obj.song_name;
+    var songArtist = obj.song_artist;
+    
+	var contentString = '<div id="content">'+
+    '<h1 id="firstHeading" class="firstHeading">'+ songName +'</h1>'+
+    '<div id="bodyContent">'+
+    '<p>'+ songArtist +'</p>'+
+    '</div>';
 
     var infowindow = new google.maps.InfoWindow({
-      content: contentString
-    });
+        content: contentString
+      });
+    
     var coords = new google.maps.LatLng(lat, long);
 
     var songMarker = new google.maps.Marker({
       position: coords,
       map: map,
       icon: musicIcon,
-      customInfo: [songId, infowindow],
+      customInfo: [songId,infowindow],
       optimized: false
     });
-
     songMarker.setMap(map); //add marker to map
     //Add Function for marker
     google.maps.event.addListener(songMarker, 'click', function() {
         // alert(this.customInfo);
         var songId = this.customInfo[0];
         R.ready(function() {
+          $("#player-buttons").css("visibility","visible");
           R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
           console.log(songId);
         });
@@ -132,9 +113,11 @@ function readData(data){
       var info = this.customInfo[1];
       info.close(map, this);
     });
-  }
+}
 
-  // console.log(data);
+function readData(data){
+  
+
   $.getJSON("api/get-songs",function(dat){
 	  var dats = data;
 
@@ -142,34 +125,14 @@ function readData(data){
 	  if(dat!="no user")dats = dat;
 
 	  for(key in dats){
-	    var lat = dats[key].location.latitude;
-	    var long = dats[key].location.longitude;
-	    var songId = dats[key].song_id;
-
-	    var coords = new google.maps.LatLng(lat, long);
-
-	    var songMarker = new google.maps.Marker({
-	      position: coords,
-	      map: map,
-	      icon: musicIcon,
-	      customInfo: songId,
-	      optimized: false
-	    });
-	    songMarker.setMap(map); //add marker to map
-	    //Add Function for marker
-	    google.maps.event.addListener(songMarker, 'click', function() {
-	        // alert(this.customInfo);
-	        var songId = this.customInfo;
-	        currentSong = songId;
-	        R.ready(function() {
-	          $("#player-buttons").css("visibility","visible");
-	          R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
-	          console.log(songId);
-	        });
-	    });
+	    
+		  makeMarker(dats[key]);
 	  }
   });
-}
+ 
+ }
+
+  
 
 function showMusic(){
   //Read JSON File
@@ -188,7 +151,7 @@ function showMusic(){
 function success(position) {
   console.log("inside success");
   //Save the Current User Location
-  var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
   //Draw Data on Map
   var mapOptions = {
     center: coords,
