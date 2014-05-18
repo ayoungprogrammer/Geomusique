@@ -11,9 +11,9 @@ $(function(){
     R.ready(function() {
     	console.log($("input[name=query]").val());
     	R.request({
-            method: "search", 
+            method: "search",
             content: {
-              query: $("input[name=query]").val(), 
+              query: $("input[name=query]").val(),
               types: "Track"
             },
             success: function(response) {
@@ -22,6 +22,7 @@ $(function(){
             	  alert('no songs');
               }else {
             	  R.player.play({source:searchResults[0].key});
+
               }
             },
             error: function(response) {
@@ -39,30 +40,54 @@ function readData(data){
     null,null,null,
     new google.maps.Size(30, 40)
   );
+
+
   // console.log(data);
   for(key in data){
     var lat = data[key].location.latitude;
     var long = data[key].location.longitude;
-    var songId = data[key].song_id;
 
+    var songId = data[key].song_id;
+    var songName = data[key].song_name;
+    var songArtist = data[key].song_artist;
+
+    var contentString = '<div id="content">'+
+        '<h1 id="firstHeading" class="firstHeading">'+ songName +'</h1>'+
+        '<div id="bodyContent">'+
+        '<p>'+ songArtist +'</p>'+
+        '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
     var coords = new google.maps.LatLng(lat, long);
 
     var songMarker = new google.maps.Marker({
       position: coords,
       map: map,
       icon: musicIcon,
-      customInfo: songId,
+      customInfo: [songId, infowindow],
       optimized: false
     });
+
     songMarker.setMap(map); //add marker to map
     //Add Function for marker
     google.maps.event.addListener(songMarker, 'click', function() {
         // alert(this.customInfo);
-        var songId = this.customInfo;
+        var songId = this.customInfo[0];
         R.ready(function() {
           R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
           console.log(songId);
         });
+    });
+    google.maps.event.addListener(songMarker, 'mouseover', function() {
+      var info = this.customInfo[1];
+      console.log(info);
+      info.open(map, this);
+    });
+    google.maps.event.addListener(songMarker, 'mouseout', function() {
+      var info = this.customInfo[1];
+      info.close(map, this);
     });
   }
 }
@@ -84,7 +109,7 @@ function showMusic(){
 function success(position) {
   console.log("inside success");
   //Save the Current User Location
-  coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
   //Draw Data on Map
   var mapOptions = {
     center: coords,

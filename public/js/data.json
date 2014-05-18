@@ -1,42 +1,63 @@
 [
   {
     "location": {"latitude":37.75012754,"longitude":-122.40754278},
-    "song_id": "t46571366"
+    "song_id": "t46571366",
+    "song_name": "Talk Dirty",
+    "song_artist": "Jason DeRulo"
   },
   {
     "location": {"latitude":37.73265649,"longitude":-122.4367166},
-    "song_id": "sr39978279"
+    "song_id": "sr39978279",
+    "song_name": "Let It Go",
+    "song_artist":"Lea Michele"
+
   },
   {
     "location": {"latitude":37.76823972,"longitude": -122.48377595},
-    "song_id":"t43781186"
+    "song_id":"t43781186",
+    "song_name": "Wake Me Up",
+    "song_artist":"DJ Kee"
   },
   {
     "location": {"latitude": 37.70696058,"longitude": -122.43370092},
-    "song_id": "t43781187"
+    "song_id": "t43781187",
+    "song_name": "Burn",
+    "song_artist":"Level Eleven"
   },
   {
     "location": {"latitude":37.72803058,"longitude": -122.48455286},
-    "song_id": "t43781191"
+    "song_id": "t43781191",
+    "song_name": "Thrift Shop",
+    "song_artist":"Boy"
   },
   {
     "location": {"latitude": 37.74880011,"longitude": -122.48973629},
-    "song_id": "t43781197"
+    "song_id": "t43781197",
+    "song_name": "Work B***h",
+    "song_artist":"Hellen"
   },
   {
     "location": {"latitude": 37.76190699,"longitude": -122.41662124},
-    "song_id": "t43781206"
+    "song_id": "t43781206",
+    "song_name": "Love Somebody",
+    "song_artist":"Atlantis"
   },
   {
     "location": {"latitude": 37.72161731,"longitude": -122.47662959},
-    "song_id": "t43781208"
+    "song_id": "t43781208",
+    "song_name": "Pompeii",
+    "song_artist":"Trancemission"
   },
   {
     "location": {"latitude": 37.7825095,"longitude": -122.46806451},
-    "song_id": "t43781211"
+    "song_id": "t43781211",
+    "song_name": "Wonder",
+    "song_artist":"Hanna"
   },
   {
     "location": {"latitude": 37.75628471,"longitude": -122.43744645},
-    "song_id": "t43781213"
+    "song_id": "t43781213",
+    "song_name": "The Monster",
+    "song_artist":"DJ Space'C"
   }
 ]
