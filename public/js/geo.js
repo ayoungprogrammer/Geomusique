@@ -3,7 +3,13 @@ var map;
 
 var currentSong;
 
+var coords;
 
+var musicIcon = new google.maps.MarkerImage(
+	    'img/musicmarker.png',
+	    null,null,null,
+	    new google.maps.Size(30, 40)
+	  );
 
 $(function(){
   $("#search").submit(function(e) {
@@ -21,9 +27,35 @@ $(function(){
               if(searchResults.length==0){
             	  alert('no songs');
               }else {
-            	  R.player.play({source:searchResults[0].key});
+            	  currentSong = searchResults[0];
+            	  songId = currentSong.key;
+            	  var songMarker = new google.maps.Marker({
+            	      position: coords,
+            	      map: map,
+            	      icon: musicIcon,
+            	      customInfo: songId,
+            	      optimized: false
+            	    });
+            	    songMarker.setMap(map); //add marker to map
+            	    //Add Function for marker
+            	    google.maps.event.addListener(songMarker, 'click', function() {
+            	        // alert(this.customInfo);
+            	        var songId = this.customInfo;
+            	        R.ready(function() {
+            	          R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
+            	          console.log(songId);
+            	        });
+            	    });
 
-              }
+            	  R.player.play({source:searchResults[0].key});
+            	  console.log(coords);
+            	  var obj = {'song_id':currentSong.key,
+            			  'location':{'latitude':coords.k,
+            				  'longitude':coords.A}};
+
+            	  $.post('api/save-song',obj,function(data){
+            		  console.log('saved');
+            	  });              }
             },
             error: function(response) {
             	console.log(response.message);
@@ -90,6 +122,40 @@ function readData(data){
       info.close(map, this);
     });
   }
+
+  // console.log(data);
+  $.getJSON("api/get-songs",function(dat){
+	  var dats = data;
+
+	  console.log("Data: "+dat);
+	  if(dat!="no user")dats = dat;
+
+	  for(key in dats){
+	    var lat = dats[key].location.latitude;
+	    var long = dats[key].location.longitude;
+	    var songId = dats[key].song_id;
+
+	    var coords = new google.maps.LatLng(lat, long);
+
+	    var songMarker = new google.maps.Marker({
+	      position: coords,
+	      map: map,
+	      icon: musicIcon,
+	      customInfo: songId,
+	      optimized: false
+	    });
+	    songMarker.setMap(map); //add marker to map
+	    //Add Function for marker
+	    google.maps.event.addListener(songMarker, 'click', function() {
+	        // alert(this.customInfo);
+	        var songId = this.customInfo;
+	        R.ready(function() {
+	          R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
+	          console.log(songId);
+	        });
+	    });
+	  }
+  });
 }
 
 function showMusic(){

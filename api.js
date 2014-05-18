@@ -49,14 +49,17 @@ exports.saveSong = function(req,res){
 			return console.error(err);
 		}
 		if(!user){
-			res("no user");
+			console.log("no user");
+			res.send("no user");
 			return;
 		}
-		user.saves.push(req.body.save);
+		console.log(req.body);
+		user.saves.push(req.body);
 		user.save(req.body.song,function(err,song){
 			if(err){
 				return console.error(err);
 			}
+			console.log("song saved");
 			res.json("success");
 		});
 	});
@@ -66,6 +69,9 @@ exports.saveTrip = function(req,res){
 	User.findOne({'username':req.session.username},function(err,user){
 		if(err){
 			return console.error(err);
+		}
+		if(!user){
+			return;
 		}
 		user.trips.add(req.body.trips);
 		user.save();
@@ -80,6 +86,7 @@ exports.getSongs = function (req,res){
 		}
 		if(!user){
 			res.json("no user");
+			console.log("no user");
 			return;
 		}
 		console.log(user);
