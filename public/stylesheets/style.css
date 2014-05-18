@@ -73,3 +73,24 @@
   width:40px;
   height:40px;
 }
+.content {
+  margin: 20px;
+}
+
+.error {
+  color: #a00;
+  font-weight: bold;
+}
+
+.hidden-view {
+  display: none;
+  margin: 20px 0;
+}
+.sign-in{
+  float:left;
+  margin-left:20px;
+}
+.authenticated-view{
+  float:left;
+  margin-left: 30px;
+}
