@@ -27,9 +27,9 @@ $(function(){
     	console.log($("input[name=query]").val());
     	$("#player-buttons").show();
     	R.request({
-            method: "search", 
+            method: "search",
             content: {
-              query: $("input[name=query]").val(), 
+              query: $("input[name=query]").val(),
               types: "Track"
             },
             success: function(response) {
@@ -57,18 +57,16 @@ $(function(){
             	          console.log(songId);
             	        });
             	    });
-            	  
+
             	  R.player.play({source:searchResults[0].key});
             	  console.log(coords);
             	  var obj = {'song_id':currentSong.key,
             			  'location':{'latitude':coords.k,
             				  'longitude':coords.A}};
-            	  
+
             	  $.post('api/save-song',obj,function(data){
             		  console.log('saved');
-            	  });
-              }
-              
+            	  });              }
             },
             error: function(response) {
             	console.log(response.message);
@@ -80,14 +78,69 @@ $(function(){
 });
 
 function readData(data){
-  
+  var musicIcon = new google.maps.MarkerImage(
+    'img/musicmarker.png',
+    null,null,null,
+    new google.maps.Size(30, 40)
+  );
+
+
+  // console.log(data);
+  for(key in data){
+    var lat = data[key].location.latitude;
+    var long = data[key].location.longitude;
+
+    var songId = data[key].song_id;
+    var songName = data[key].song_name;
+    var songArtist = data[key].song_artist;
+
+    var contentString = '<div id="content">'+
+        '<h1 id="firstHeading" class="firstHeading">'+ songName +'</h1>'+
+        '<div id="bodyContent">'+
+        '<p>'+ songArtist +'</p>'+
+        '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var coords = new google.maps.LatLng(lat, long);
+
+    var songMarker = new google.maps.Marker({
+      position: coords,
+      map: map,
+      icon: musicIcon,
+      customInfo: [songId, infowindow],
+      optimized: false
+    });
+
+    songMarker.setMap(map); //add marker to map
+    //Add Function for marker
+    google.maps.event.addListener(songMarker, 'click', function() {
+        // alert(this.customInfo);
+        var songId = this.customInfo[0];
+        R.ready(function() {
+          R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
+          console.log(songId);
+        });
+    });
+    google.maps.event.addListener(songMarker, 'mouseover', function() {
+      var info = this.customInfo[1];
+      console.log(info);
+      info.open(map, this);
+    });
+    google.maps.event.addListener(songMarker, 'mouseout', function() {
+      var info = this.customInfo[1];
+      info.close(map, this);
+    });
+  }
+
   // console.log(data);
   $.getJSON("api/get-songs",function(dat){
 	  var dats = data;
-	  
+
 	  console.log("Data: "+dat);
 	  if(dat!="no user")dats = dat;
-	  
+
 	  for(key in dats){
 	    var lat = dats[key].location.latitude;
 	    var long = dats[key].location.longitude;
@@ -116,7 +169,6 @@ function readData(data){
 	    });
 	  }
   });
-  
 }
 
 function showMusic(){
@@ -136,7 +188,7 @@ function showMusic(){
 function success(position) {
   console.log("inside success");
   //Save the Current User Location
-  coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
   //Draw Data on Map
   var mapOptions = {
     center: coords,
