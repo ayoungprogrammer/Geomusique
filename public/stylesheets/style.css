@@ -84,13 +84,13 @@
 
 .hidden-view {
   display: none;
-  margin: 20px 0;
 }
 .sign-in{
   float:left;
-  margin-left:20px;
+  margin: 20px 0 20px 20px;
 }
-.authenticated-view{
+.authenticated-view, .authenticated-view{
   float:left;
   margin-left: 30px;
+  margin-top:20px;
 }
