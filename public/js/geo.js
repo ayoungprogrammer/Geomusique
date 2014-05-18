@@ -19,6 +19,9 @@ $(".player-element").click(function(e){
 $("#pause").click(function(e){
 	R.player.togglePause();
 });
+$("#stop").click(function(e){
+  saveTour();
+});
 
 $(function(){
   $("#search").submit(function(e) {
@@ -54,7 +57,7 @@ $(function(){
             	  $.post('api/save-song',obj,function(data){
             		  makeMarker(obj);
             		  console.log('saved');
-            	  });              
+            	  });
             	}
             },
             error: function(response) {
@@ -67,13 +70,13 @@ $(function(){
 });
 
 function makeMarker(obj){
-	
+
 	var lat = obj.location.latitude;
     var long = obj.location.longitude;
     var songId = obj.song_id;
     var songName = obj.song_name;
     var songArtist = obj.song_artist;
-    
+
 	var contentString = '<div id="content">'+
     '<h1 id="firstHeading" class="firstHeading">'+ songName +'</h1>'+
     '<div id="bodyContent">'+
@@ -83,7 +86,7 @@ function makeMarker(obj){
     var infowindow = new google.maps.InfoWindow({
         content: contentString
       });
-    
+
     var coords = new google.maps.LatLng(lat, long);
 
     var songMarker = new google.maps.Marker({
@@ -116,8 +119,6 @@ function makeMarker(obj){
 }
 
 function readData(data){
-  
-
   $.getJSON("api/get-songs",function(dat){
 	  var dats = data;
 
@@ -125,14 +126,16 @@ function readData(data){
 	  if(dat!="no user")dats = dat;
 
 	  for(key in dats){
-	    
+
 		  makeMarker(dats[key]);
 	  }
   });
- 
+
  }
 
-  
+function saveTour(){
+  console.log("Save");
+}
 
 function showMusic(){
   //Read JSON File
@@ -169,7 +172,6 @@ function success(position) {
   // xhr.send(JSON.stringify(coords));
 
   showMusic();
-
 } //End of success
 
 //Resize Map Canvas element to full screen
