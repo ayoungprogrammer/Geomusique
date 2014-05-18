@@ -1,0 +1,42 @@
+[
+  {
+    "location": {"latitude":37.69892809,"longitude":-122.32531672},
+    "song_id": "t46571366"
+  },
+  {
+    "location": {"latitude":37.6668852,"longitude":-122.39192117},
+    "song_id": "sr39978279"
+  },
+  {
+    "location": {"latitude":37.72711687,"longitude": -122.32297327},
+    "song_id":"t43781186"
+  },
+  {
+    "location": {"latitude": 37.86692538,"longitude": -122.27455941},
+    "song_id": "t43781187"
+  },
+  {
+    "location": {"latitude":37.78691869,"longitude": -122.37323137},
+    "song_id": "t43781191"
+  },
+  {
+    "location": {"latitude": 37.86835476,"longitude": -122.38526689},
+    "song_id": "t43781197"
+  },
+  {
+    "location": {"latitude": 37.83552946,"longitude": -122.2776121},
+    "song_id": "t43781206"
+  },
+  {
+    "location": {"latitude": 37.89047022,"longitude": -122.41342366},
+    "song_id": "t43781208"
+  },
+  {
+    "location": {"latitude": 37.73557929,"longitude": -122.46998515},
+    "song_id": "t43781211"
+  },
+  {
+    "location": {"latitude": 37.73247684,"longitude": -122.41800289},
+    "song_id": "t43781213"
+  }
+]
