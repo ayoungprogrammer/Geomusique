@@ -285,9 +285,7 @@ function makeMarker(obj){
       var info = this.customInfo[1];
       info.close(map, this);
     });
-    google.maps.event.addListenerOnce( map, 'idle', function() {
-      drawLines();
-    });
+    
 }
 
 function readData(data){
@@ -295,8 +293,14 @@ function readData(data){
 	  var dats = data;
 
 	  console.log("Data: "+dat);
-	  if(dat!="no user")dats = dat;
-
+	  if(dat!="no user"){
+		  dats = dat;
+	  }else {
+		  google.maps.event.addListenerOnce( map, 'idle', function() {
+		      drawLines();
+		    });
+	  }
+	  
 	  for(key in dats){
       console.log(dats[key]);
 		  makeMarker(dats[key]);
