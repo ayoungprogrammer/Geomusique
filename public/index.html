@@ -10,20 +10,22 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADilWRCber7vSenxFP2vpdOf5DTwcT19k&sensor=true">
         </script>
         <script src="https://www.rdio.com/api/api.js?client_id=p43wWn7J3nBSB2MI7_k4Bg"></script>
-
+        <link href="//fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
 </head>
 <body> <!-- Add this to body tag: onload="initializeUI()"-->
 
 <div id="rdio-bar">
   <div id="logo">
-    <h2>@Geomusique</h2>
+    <h2>GeoMusique</h2>
   </div>
-  <div>
-    <input type="text" value="search">
-  </div>
+  <form id="search">
+    <input class="search-element" type="text" placeholder="Type Album or Artist Name">
+    <button class="search-element search-button" itype="submit">Search</button>
+    <div class="error"></div>
+  </form>
 </div>
 <div id="map-canvas"></div>
 <script type="text/javascript" src="js/geo.js"></script>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script> 
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </body>
 </html>
