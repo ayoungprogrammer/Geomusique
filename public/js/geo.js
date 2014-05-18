@@ -11,11 +11,21 @@ var musicIcon = new google.maps.MarkerImage(
 	    new google.maps.Size(30, 40)
 	  );
 
+
+$(".player-element").click(function(e){
+	R.player.togglePause();
+});
+
+$("#pause").click(function(e){
+	R.player.togglePause();
+});
+
 $(function(){
   $("#search").submit(function(e) {
     e.preventDefault();
     R.ready(function() {
     	console.log($("input[name=query]").val());
+    	$("#player-buttons").show();
     	R.request({
             method: "search", 
             content: {
@@ -27,8 +37,8 @@ $(function(){
               if(searchResults.length==0){
             	  alert('no songs');
               }else {
-            	  currentSong = searchResults[0];
-            	  songId = currentSong.key;
+            	  currentSong = searchResults[0].songId;
+            	  songId = currentSong;
             	  var songMarker = new google.maps.Marker({
             	      position: coords,
             	      map: map,
@@ -42,6 +52,7 @@ $(function(){
             	        // alert(this.customInfo);
             	        var songId = this.customInfo;
             	        R.ready(function() {
+            	        	$("#player-buttons").css("visibility","visible");
             	          R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
             	          console.log(songId);
             	        });
@@ -96,7 +107,9 @@ function readData(data){
 	    google.maps.event.addListener(songMarker, 'click', function() {
 	        // alert(this.customInfo);
 	        var songId = this.customInfo;
+	        currentSong = songId;
 	        R.ready(function() {
+	          $("#player-buttons").css("visibility","visible");
 	          R.player.play({source: songId}); // Alice In Chains - The Devil Put Dinosaurs Here
 	          console.log(songId);
 	        });
