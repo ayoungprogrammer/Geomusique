@@ -25,7 +25,7 @@ app.use(express.session({ secret: 'SECRET' }));
 app.use(express.methodOverride());
 //app.use(app.router);
 //
-app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/',function(req,res,next){
 	console.log('User: '+req.session.username);
 	if(!req.session.username){
@@ -35,7 +35,7 @@ app.get('/',function(req,res,next){
 	next();
 });
 
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
