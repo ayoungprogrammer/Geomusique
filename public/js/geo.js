@@ -1,5 +1,38 @@
 var map;
 //Read JSON file
+
+var currentSong;
+
+
+
+$(function(){
+  $("#search").submit(function(e) {
+    e.preventDefault();
+    R.ready(function() {
+    	console.log($("input[name=query]").val());
+    	R.request({
+            method: "search", 
+            content: {
+              query: $("input[name=query]").val(), 
+              types: "Track"
+            },
+            success: function(response) {
+              searchResults = response.result.results;
+              if(searchResults.length==0){
+            	  alert('no songs');
+              }else {
+            	  R.player.play({source:searchResults[0].key});
+              }
+            },
+            error: function(response) {
+            	console.log(response.message);
+              $(".error").text(response.message);
+            }
+          });
+    });
+  });
+});
+
 function readData(data){
   var musicIcon = new google.maps.MarkerImage(
     'img/musicmarker.png',

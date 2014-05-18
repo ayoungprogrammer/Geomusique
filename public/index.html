@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>GeoMusique</title>
@@ -20,7 +21,8 @@
   </div>
 
   <form id="search">
-    <input class="search-element" type="text" placeholder="Type Album or Artist Name"  onfocus="this.placeholder = ''">
+
+    <input class="search-element typeahead" name="query" type="text" placeholder="Type Album or Artist Name" onfocus="this.placeholder = ''">
     <button class="search-element search-button" itype="submit">Search</button>
     <div class="error"></div>
   </form>
@@ -34,6 +36,6 @@
 </div>
 <div id="map-canvas"></div>
 <script type="text/javascript" src="js/geo.js"></script>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
 </body>
 </html>
