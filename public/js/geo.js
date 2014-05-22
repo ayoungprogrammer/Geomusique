@@ -444,4 +444,4 @@ function getLocation(){
 
 //call when song starts or when user asks to tag a song
 getLocation();
-showTour();
+//showTour();

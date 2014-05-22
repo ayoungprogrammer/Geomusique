@@ -1,18 +1,17 @@
 # Geomusique
 
-## Objective
+This is my project for the 2014 Music Day Hackathon in San Francisco. Users
+can login and save music to locations and play them back anywhere.
 
+http://geomusique.herokuapp.com
 
-
-## Usage
-
-
-
-## Developing
-
-
+## APIs
+* Rdio API
+* Google Maps API
 
 ### Tools
+* Node.js
+* Mongodb
 
-Created with [Nodeclipse v0.5](https://github.com/Nodeclipse/nodeclipse-1)
- ([Eclipse Marketplace](http://marketplace.eclipse.org/content/nodeclipse), [site](http://www.nodeclipse.org))
+## Screenshots
+![Main screen](mainscreen.png?raw=true "Main screen")
